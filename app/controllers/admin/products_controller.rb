@@ -3,6 +3,10 @@ class Admin::ProductsController < ApplicationController
     @products = Product.all
   end
 
+  def show
+    @product = Product.find(params[:id])
+  end
+
   def new
     @product = Product.new
   end
@@ -23,10 +27,18 @@ class Admin::ProductsController < ApplicationController
   def update
     @product = Product.find(params[:id])
     if @product.update(product_params)
+      flash[:notice] = "Product updated!"
       redirect_to admin_products_path
     else
       render :edit
     end
+  end
+
+  def destroy
+    @product = Product.find(params[:id])
+    @product.destroy
+    flash[:warning] = "Product deleted!"
+    redirect_to admin_products_path
   end
 
     private
